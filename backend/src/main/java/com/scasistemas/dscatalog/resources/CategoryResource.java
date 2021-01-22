@@ -15,7 +15,7 @@ import com.scasistemas.dscatalog.entities.Category;
 public class CategoryResource {
 	
 	/* ResponseEntity é Objeto do spring que vai encapsular uma resposta http*/
-	@GetMapping /*Indica que este método vai ser um webservice*/
+	@GetMapping /*Indica que este método vai ser um webservice --- */
 	public ResponseEntity<List<Category>> findAll(){
 		
 		List<Category> list = new ArrayList<>(); /*No java List é uma interface e não pode ser instaciada diretamente por isto foi usado o ArrayList*/
