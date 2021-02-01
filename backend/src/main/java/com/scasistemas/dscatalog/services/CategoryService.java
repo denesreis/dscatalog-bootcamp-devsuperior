@@ -1,6 +1,7 @@
 package com.scasistemas.dscatalog.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.scasistemas.dscatalog.dto.CategoryDTO;
 import com.scasistemas.dscatalog.entities.Category;
 import com.scasistemas.dscatalog.repositories.CategoryRepository;
+import com.scasistemas.dscatalog.services.exceptions.EntityNotFoundException;
 
 @Service
 public class CategoryService {
@@ -21,7 +23,17 @@ public class CategoryService {
 		
 		/**/
 		return list.stream().map(x -> new CategoryDTO( x ) ).collect(Collectors.toList());
+	}
+	
+	@Transactional(readOnly = true)
+	public CategoryDTO findById(Long id) {
 		
+		/*O retorna da busca nunca vai ser um objeot nulo. Vai ser do tipo Optional e dentro o optional pode ter ou não a categoria*/
+		Optional<Category> obj = repository.findById(id);
+		//Category entity = obj.get(); // método get obtém o objeto que estava dentro do Optional
+		Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entidade não localizada"));
+		return new CategoryDTO(entity); //Como o método retorno CategoryDTO e não a entidade precisa dar  new
+
 	}
 	
 	

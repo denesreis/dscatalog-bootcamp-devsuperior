@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scasistemas.dscatalog.dto.CategoryDTO;
-import com.scasistemas.dscatalog.entities.Category;
 import com.scasistemas.dscatalog.services.CategoryService;
 
 @RestController /*Anotation para configurar a classe como controlador rest*/
@@ -31,7 +31,14 @@ public class CategoryResource {
 		List<CategoryDTO> list = service.findAll();
 		
 		return ResponseEntity.ok().body(list); /*O Ponto .ok deixa retornar uma resposta 200  que signfica que a requeisição foi realizada com sucesso*/
-		
 	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<CategoryDTO> findById(@PathVariable Long id){
+
+		CategoryDTO dto = service.findById(id);
+		
+		return ResponseEntity.ok().body(dto); 
+	}	
 
 }
