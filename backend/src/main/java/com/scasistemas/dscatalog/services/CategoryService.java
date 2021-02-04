@@ -35,6 +35,15 @@ public class CategoryService {
 		return new CategoryDTO(entity); //Como o método retorno CategoryDTO e não a entidade precisa dar  new
 
 	}
+	@Transactional
+	public CategoryDTO insert(CategoryDTO dto) {
+		
+		Category entity = new Category(); //Convertendo o DTO para uma entidade
+		entity.setName(dto.getName());
+		entity = repository.save(entity); //entity recebe a referencia dele mesmo (Gravando os dados)
+		return new CategoryDTO(entity); //retornando a entidade convertida para um CategoryDTO
+
+	}
 	
 	
 	
