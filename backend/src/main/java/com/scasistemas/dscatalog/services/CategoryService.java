@@ -56,6 +56,7 @@ public class CategoryService {
 		}
 		catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id da categoria não localizadada "+id);
+
 			
 		}
 
