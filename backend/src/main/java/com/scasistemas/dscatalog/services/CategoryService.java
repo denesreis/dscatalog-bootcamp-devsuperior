@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.scasistemas.dscatalog.dto.CategoryDTO;
 import com.scasistemas.dscatalog.entities.Category;
 import com.scasistemas.dscatalog.repositories.CategoryRepository;
-import com.scasistemas.dscatalog.services.exceptions.EntityNotFoundException;
+import com.scasistemas.dscatalog.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class CategoryService {
@@ -31,7 +33,7 @@ public class CategoryService {
 		/*O retorna da busca nunca vai ser um objeot nulo. Vai ser do tipo Optional e dentro o optional pode ter ou não a categoria*/
 		Optional<Category> obj = repository.findById(id);
 		//Category entity = obj.get(); // método get obtém o objeto que estava dentro do Optional
-		Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entidade não localizada"));
+		Category entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entidade não localizada"));
 		return new CategoryDTO(entity); //Como o método retorno CategoryDTO e não a entidade precisa dar  new
 
 	}
@@ -42,6 +44,20 @@ public class CategoryService {
 		entity.setName(dto.getName());
 		entity = repository.save(entity); //entity recebe a referencia dele mesmo (Gravando os dados)
 		return new CategoryDTO(entity); //retornando a entidade convertida para um CategoryDTO
+
+	}
+	@Transactional
+	public CategoryDTO update(Long id,CategoryDTO dto) {
+		try {
+			Category entity = repository.getOne(id);
+			entity.setName(dto.getName());
+			entity = repository.save(entity);
+			return new CategoryDTO(entity);
+		}
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id da categoria não localizadada "+id);
+			
+		}
 
 	}
 	
