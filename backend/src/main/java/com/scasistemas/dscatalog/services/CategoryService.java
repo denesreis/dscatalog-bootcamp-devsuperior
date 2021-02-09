@@ -7,12 +7,15 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.scasistemas.dscatalog.dto.CategoryDTO;
 import com.scasistemas.dscatalog.entities.Category;
 import com.scasistemas.dscatalog.repositories.CategoryRepository;
+import com.scasistemas.dscatalog.services.exceptions.DatabaseException;
 import com.scasistemas.dscatalog.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -56,10 +59,25 @@ public class CategoryService {
 		}
 		catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id da categoria não localizadada "+id);
-
-			
+		
 		}
 
+	}
+	//Não vai usar @Transactional para capturar uma execão que vai vir do banco de dados se colocar não dá pra tratar
+	public void delete(Long id) {
+		try {
+			repository.deleteById(id);
+		}
+		catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Id de Categoria não localizada: "+id);
+		}
+		catch(DataIntegrityViolationException e) {
+			throw new DatabaseException("Integridade Violada ");
+		}
+		
+		
+		
+		
 	}
 	
 	
