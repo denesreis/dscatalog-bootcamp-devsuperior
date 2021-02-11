@@ -4,6 +4,9 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,14 +31,21 @@ public class CategoryResource {
 	
 	/* ResponseEntity é Objeto do spring que vai encapsular uma resposta http*/
 	@GetMapping /*Indica que este método vai ser um webservice --- */
-	public ResponseEntity<List<CategoryDTO>> findAll(){
+	public ResponseEntity<Page<CategoryDTO>> findAll(
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction,
+			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy
+			){
 		
 		/*List<Category> list = new ArrayList<>();No java List é uma interface e não pode ser instaciada diretamente por isto foi usado o ArrayList
 		list.add(new Category(1L,"Books")); O "L" no código é para indicar que o numero é do tipo Long
 		list.add(new Category(2L,"Eletronics"));
 		list.add(new Category(3L,"Toys")); */
 		
-		List<CategoryDTO> list = service.findAll();
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy); //Direction.valueOf(direction) Na requisição hhtp mexe só com string neste caso vai converter a string para um tipo enumerado
+		
+		Page<CategoryDTO> list = service.findAllPaged(pageRequest);
 		
 		return ResponseEntity.ok().body(list); /*O Ponto .ok deixa retornar uma resposta 200  que signfica que a requeisição foi realizada com sucesso*/
 	}
