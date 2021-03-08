@@ -1,6 +1,27 @@
 //Importando as fontes open sans
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
-//Informa que qualquer elemento da aplicação o font family vai ser o open sans
-*{font-family: 'Open Sans', sans-serif;
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
+//Definindo como será os h1.....
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0;
+  font-weight: 700;
+}
+
+ul {
+  list-style-type: none;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+a {
+  &:hover {
+    /*Retira a barra em baixo do texto quando ocorre o hover*/
+    text-decoration: none;
+    /*color: unset -> faz o css herdar a cor (no caso branco quando ocorrer o hover*/
+    color: unset;
+  }
 }
