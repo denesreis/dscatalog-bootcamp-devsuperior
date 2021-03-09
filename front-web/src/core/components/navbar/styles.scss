@@ -19,7 +19,7 @@
     a {
         font-style: normal;
         color: rgba(255,255,255,0.5);
-
+        /*Quando o componente estiver ativo deve ficar branco*/
         &.active{
             font-weight: bold;
             color: #FFF;

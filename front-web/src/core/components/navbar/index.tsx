@@ -1,5 +1,6 @@
 import React from 'react';
 import './styles.scss';
+import { Link,NavLink } from 'react-router-dom';
 
 const Navbar = () => (
     //Nav usado para barra de navegação melhor que usar a div apesar de ser semelhante
@@ -8,28 +9,29 @@ const Navbar = () => (
     /*.col-6 + Tab monta a div automaticamente */
     /*href indica que é link */
     /*offset-2 coloca um recuo de duas colunas a esquerda */
+    /*activeClassName = o react-router se encarrega de gerenciar a classe ativa */
     <nav className = "row bg-primary main-nav">
         <div className = "col-2"> 
-        <a href="link" className="nav-log-text">
+        <Link to="/" className="nav-log-text">
         <h4>DS Catalog</h4>
-        </a>
+        </Link>
         </div>
         <div className="col-6 offset-2">
             <ul className="main-menu">
                 <li>
-                    <a href="link" className="active">
+                    <NavLink to ="/" activeClassName="active" exact>
                         HOME
-                    </a>
+                    </NavLink>
                 </li>
                 <li>
-                    <a href="link">
+                    <NavLink to="/catalog" activeClassName="active">
                         CATÁLOGO
-                    </a>
+                    </NavLink>
                 </li>                
                 <li>
-                    <a href="link">
+                    <NavLink to="/admin" activeClassName="active">
                         ADMIN
-                    </a>
+                    </NavLink>
                 </li>
             </ul>
 
