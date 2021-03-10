@@ -1,0 +1,20 @@
+.btn-icon{
+    height: 70px;
+    width: 380px;
+    /*Definindo o arredondamento das bordas. Se passar somente 1 parametro (10x) arredonda tudo.
+    Nesse caso ficou a sequência borda superior esquerda, superior direita, inferior direita e inferior esquerda*/
+    border-radius: 10px 0 0 10px;
+    /*Converte para maiúsculo*/
+    text-transform: uppercase;
+
+}
+.btn-icon-content{
+    background-color: #33569b;
+    width: 70px;
+    border-radius: 0 10px 10px 0;
+    display: flex;
+    /*Alinhamento vertical*/
+    align-items: center;
+    /*Alinhamento horizontal*/
+    justify-content: center;
+}
