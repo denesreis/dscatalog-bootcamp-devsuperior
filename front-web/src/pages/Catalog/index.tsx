@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import ProductCard from './components'
+import ProductCard from './components/ProductCard'
 import './styles.scss'
 
 const Catalog = () => (
