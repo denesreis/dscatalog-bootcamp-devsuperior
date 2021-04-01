@@ -1,7 +1,7 @@
 import './styles.scss';
 //import {ReactComponent as ProductImage} from '../../../../core/assets/images/product.svg';
 import ProductPrice from '../ProductPrice';
-import { Product } from '../../../../core/types/Product';
+import { Product } from 'core/types/Product';
 
 
 type Props= {

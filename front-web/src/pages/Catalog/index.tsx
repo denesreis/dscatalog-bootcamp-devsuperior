@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ProductsResponse } from '../../core/types/Product';
-import { makeRequest } from '../../core/utils/request';
+import { ProductsResponse } from 'core/types/Product';
+import { makeRequest } from 'core/utils/request';
 import ProductCard from './components/ProductCard'
+import ProductCardLoader from './components/Loaders/ProductCardLoader';
 import './styles.scss'
 //mport axios from 'axios';
 
@@ -27,6 +28,8 @@ const Catalog = () => {
       },[]); */
 
       const [productsResponse, setProductsResponse ] = useState<ProductsResponse>();
+      //useState(false) -> começa com false
+      const [isLoading, setIsLoading] = useState(false);
 
       console.log(productsResponse);
 
@@ -35,10 +38,16 @@ const Catalog = () => {
             page: 0,
             linesPerPage: 12
        }
+       setIsLoading(true); //antes de fazer a request apresenta o loader
         makeRequest({url: '/products',params})
 //          .then(response => console.log(response));
             //.data é uma estrutura que o axios retorna
             .then(response => setProductsResponse(response.data))
+            .finally(()=> {
+                //Finaliza o loader
+                setIsLoading(false)
+
+            })
       },[]);
   
 
@@ -48,13 +57,14 @@ const Catalog = () => {
                 Catálogo de Produtos
             </h1>
             <div className="catalog-products">
-                {productsResponse?.content.map(product => (
+                {/*Se esta carregando mostra o loarder senão mostra o card do produto*/}
+                {isLoading ? <ProductCardLoader /> : (
+                    productsResponse?.content.map(product => (
                     <Link to = {`/products/${product.id}`} key={product.id}>
                         <ProductCard product={product}/> 
                     </Link>
-
-                ))}
-
+                ))   
+                )}
     
             </div>
         </div>
